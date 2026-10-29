@@ -1,0 +1,13 @@
+__pycache__/
+*.pyc
+.pytest_cache/
+.venv/
+
+# cell-specific calibration and generated files (do not publish your lab's calibration or photos)
+calib/T_base_cam.npz
+calib/calib_touch_points.png
+calib/charuco_*.pdf
+calib/charuco_*.png
+examples/out/
+*.npy
+*.egg-info/

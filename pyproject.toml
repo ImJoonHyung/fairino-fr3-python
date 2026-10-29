@@ -1,0 +1,20 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "fairino-fr3"
+version = "0.1.0"
+description = "FAIRINO FR3 + DH gripper control in plain Python (XML-RPC, ServoJ 125 Hz), no vendor SDK or ROS"
+readme = "README.md"
+license = { text = "MIT" }
+requires-python = ">=3.10"
+dependencies = ["numpy>=1.26"]
+keywords = ["fairino", "fr3", "cobot", "servoj", "robot-arm", "xml-rpc"]
+
+[project.optional-dependencies]
+examples = ["opencv-contrib-python>=4.8", "pyrealsense2>=2.55", "pillow>=10.0"]
+test = ["pytest>=7.0"]
+
+[tool.setuptools]
+packages = ["fairino_fr3"]

@@ -1,0 +1,8 @@
+# same as `pip install -e ".[examples,test]"`; core (fairino_fr3/, scripts/) needs numpy only
+numpy>=1.26
+# calibration and the colour pick example
+opencv-contrib-python>=4.8
+pyrealsense2>=2.55
+pillow>=10.0
+# tests
+pytest>=7.0
