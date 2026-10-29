@@ -65,6 +65,15 @@ export FR3_IP=192.168.58.2       # your controller IP (default 192.168.58.2)
 | OS / Python | Ubuntu 24.04, Python 3.12 |
 | Packages | numpy 2.5.2, opencv-contrib-python 4.10.0, pyrealsense2 2.59.1, pillow 10.2 |
 
+**Hardware status of this repo / 실기 검증 현황** (2026-10)
+
+| | |
+|---|---|
+| `startup.py --check`, `startup.py` (enable, auto mode, gripper activation) | ✅ run on the robot / 실기 확인 |
+| `servo_line.py --execute` (5 cm up and down with ServoJ) | ✅ run on the robot / 실기 확인 |
+| `go_pose.py --check` (controller FK vs package FK agree within 5 mm) | ✅ run on the robot / 실기 확인 |
+| `go_pose.py` (MoveJ), `calib/`, `examples/color_pick.py` | ⚠️ same logic used in our setup, but this packaged copy not yet re-run / 패키지 사본으로는 아직 재확인 전 |
+
 Other controller versions may work but are untested: check the state-stream offsets in `fairino_fr3/robot.py`
 and the `MoveJ` / `ServoJ` / `MoveGripper` argument lists first.
 다른 컨트롤러 버전은 검증하지 않았습니다. `fairino_fr3/robot.py`의 상태 패킷 위치와 함수 인자 개수를 먼저 확인하세요.
@@ -124,12 +133,17 @@ ports; if the teach pendant uses one, connect the PC to the other.
 ## Usage / 사용법
 
 ```bash
-python3 scripts/startup.py --check       # read-only state
-python3 scripts/startup.py               # enable + auto mode + gripper activation
-python3 scripts/go_pose.py --pose ready --check
-python3 scripts/go_pose.py --pose ready  # MoveJ at 10 %
-python3 scripts/servo_line.py            # plan only
-python3 scripts/servo_line.py --execute  # 5 cm up and down with ServoJ (Enter = smooth stop)
+cd fairino-fr3-python
+export FR3_IP=192.168.58.2               # your controller IP, once per terminal (or add --ip to each command)
+                                         # 컨트롤러 IP, 터미널마다 한 번 (또는 각 명령에 --ip)
+
+python3 scripts/startup.py --check       # read-only state / 상태만 확인 (움직이지 않음)
+python3 scripts/startup.py               # after every power-on: enable + auto mode + gripper activation
+                                         # 전원 켤 때마다: 서보 ON + 자동 모드 + 그리퍼 활성화 (손가락만 한 번 움직임)
+python3 scripts/servo_line.py            # plan only / 경로 계산만
+python3 scripts/servo_line.py --execute  # 5 cm up and down with ServoJ (Enter = smooth stop) / 실제 이동
+python3 scripts/go_pose.py --pose ready --check   # check the MoveJ plan / MoveJ 계획만 확인
+python3 scripts/go_pose.py --pose ready  # MoveJ at 10 % (can be a large joint move: check first)
 ```
 
 As a library / 라이브러리로:
