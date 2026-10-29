@@ -40,7 +40,10 @@ def main():
     robot = FR3(a.ip)
     st = robot.state()
     if not (robot.ready(st) and st["state"] == 1):
-        sys.exit(f"stop: robot state {st} (automatic mode, no error and idle required)")
+        msg = f"robot state {st} (automatic mode, no error and idle required)"
+        if not a.check:
+            sys.exit(f"stop: {msg}")
+        print(f"warning: {msg}")
 
     cur = robot.q()
     low = min(min([F[2, 3] for F in robot.kin.fk_all(np.radians(cur + (target - cur) * t))[0][2:]]
